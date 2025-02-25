@@ -1,0 +1,18 @@
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+
+register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
+
+login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+welcome:
+    path: /welcome
+    controller: App\Controller\SecurityController::welcome
+
+logout:
+    path: /logout

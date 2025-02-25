@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in{% endblock %}
+
+{% block body %}
+<div class="w-full max-w-md bg-white rounded-lg shadow-xl p-6">
+    <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Log in</h1>
+    <form method="post" class="space-y-5;">
+        {% if error %}
+            <div class="bg-red-100 border border-red-400 text-red-600 text-sm p-3 rounded mb-4">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('logout') }}" class="btn btn-danger">Logout</a>
+            </div>
+        {% else %}
+            <label for="inputEmail" class="block text-sm font-medium text-gray-700 mt-1 mb-1">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="w-full p-3 rounded bg-gray-50 border border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" autocomplete="email" required autofocus>
+
+            <div>
+                <label for="inputPassword" class="block text-sm font-medium text-gray-700 mt-1 mb-1">Password</label>
+                <div class="relative">
+                    <input type="password" name="password" id="inputPassword" class="w-full p-3 rounded bg-gray-50 border border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" autocomplete="current-password" required>
+                    <span onclick="togglePassword()" class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-400">
+                        <i class="fas fa-eye-slash" id="eye-icon"></i>
+                    </span>
+                </div>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="checkbox mt-3 mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div>
+
+            <button class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 rounded-lg shadow-lg transition" type="submit">Sign in</button>
+
+            <div class="text-center text-sm mt-6">
+                <p class="text-gray-600">No account yet? <a href="{{ path('register') }}" class="text-blue-500 hover:underline">Register</a></p>
+            </div>
+        {% endif %}
+    </form>
+</div>
+
+<script>
+function togglePassword() {
+    const passwordField = document.getElementById('inputPassword');
+    const icon = document.getElementById('eye-icon');
+    
+    if (passwordField.type === 'password') {
+        passwordField.type = 'text';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    } else {
+        passwordField.type = 'password';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    }
+}
+</script>
+
+{% endblock %}

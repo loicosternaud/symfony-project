@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="w-full max-w-md bg-white rounded-lg shadow-xl p-6 mx-auto mt-10">
+    <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Register</h1>
+
+    {{ form_start(registrationForm, {'attr': {'id': 'registrationForm', 'class': 'space-y-5'}}) }}
+
+        {% for error in registrationForm.vars.errors %}
+            <div class="bg-red-100 border border-red-400 text-red-600 text-sm font-semibold p-3 rounded mb-4">
+                {{ error.message }}
+            </div>
+        {% endfor %}
+
+        <div>
+            <label for="{{ registrationForm.email.vars.id }}" class="block text-sm font-medium text-gray-700 mt-1 mb-1">Email</label>
+            {{ form_widget(registrationForm.email, {'attr': {'class': 'w-full p-3 rounded bg-gray-50 border border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+            {% for error in registrationForm.email.vars.errors %}
+                <p class="text-red-600 text-sm font-semibold mt-1">{{ error.message }}</p>
+            {% endfor %}
+        </div>
+
+        <div>
+            <label for="{{ registrationForm.plainPassword.vars.id }}" class="block text-sm font-medium text-gray-700 mt-1 mb-1">Password</label>
+            <div class="relative">
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'w-full p-3 rounded bg-gray-50 border border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+                <span type="button" onclick="togglePassword('{{ registrationForm.plainPassword.vars.id }}', 'eye-icon1')" class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-600">
+                    <i class="fas fa-eye-slash" id="eye-icon1"></i>
+                </span>
+            </div>
+            <small class="text-gray-500">Must be at least 8 characters, include an uppercase letter, a number, and a special character.</small>
+            {% for error in registrationForm.plainPassword.vars.errors %}
+                <p class="text-red-600 text-sm font-semibold mt-1">{{ error.message }}</p>
+            {% endfor %}
+        </div>
+
+        <div>
+            <label for="{{ registrationForm.passwordConfirmation.vars.id }}" class="block text-sm font-medium text-gray-700 mt-1 mb-1">Confirm Password</label>
+            <div class="relative">
+                {{ form_widget(registrationForm.passwordConfirmation, {'attr': {'class': 'w-full p-3 rounded bg-gray-50 border border-gray-300 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500'}}) }}
+                <span type="button" onclick="togglePassword('{{ registrationForm.passwordConfirmation.vars.id }}', 'eye-icon2')" class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-600">
+                    <i class="fas fa-eye-slash" id="eye-icon2"></i>
+                </span>
+            </div>
+            {% for error in registrationForm.passwordConfirmation.vars.errors %}
+                <p class="text-red-600 text-sm font-semibold mt-1">{{ error.message }}</p>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold py-3 rounded-lg shadow-lg transition">
+            Register
+        </button>
+
+    {{ form_end(registrationForm) }}
+
+    <div class="text-center text-sm mt-6">
+        <p class="text-gray-600">Already have an account? <a href="{{ path('login') }}" class="text-blue-500 hover:underline">Login here</a></p>
+    </div>
+</div>
+
+<script>
+function togglePassword(fieldId, iconId) {
+    const passwordField = document.getElementById(fieldId);
+    const icon = document.getElementById(iconId);
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    } else {
+        passwordField.type = "password";
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    }
+}
+</script>
+
+{% endblock %}
