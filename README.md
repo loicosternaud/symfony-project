@@ -10,6 +10,7 @@ Avant de commencer, assurez-vous que vous avez les éléments suivants installé
 - **Composer** (pour gérer les dépendances PHP)
 - **MySQL** ou tout autre serveur de base de données compatible
 - **Symfony CLI** (facultatif mais recommandé)
+- **Docker** et **Docker Compose** (pour la gestion des conteneurs)
 
 ## Installation
 
@@ -53,7 +54,30 @@ Vous devez maintenant personnaliser la configuration de votre environnement loca
     APP_SECRET=your_secret_key_here
     ```
 
-### 4. Créer la base de données
+### 4. Configurer Docker
+
+Si vous souhaitez utiliser Docker pour exécuter l'application, voici les étapes à suivre.
+
+- **Modifier le fichier** `docker-compose.yml`
+
+   Le fichier `docker-compose.yml` contient la configuration pour le service de base de données MySQL. Avant de démarrer Docker, vous devez modifier les valeurs suivantes dans ce fichier pour correspondre à vos informations de connexion :
+
+    - `MYSQL_ROOT_PASSWORD` : mot de passe pour le super utilisateur root de la base de données.
+    - `MYSQL_DATABASE` : nom de la base de données à créer.
+    - `MYSQL_USER` : nom d'utilisateur pour se connecter à la base de données.
+    - `MYSQL_PASSWORD` : mot de passe de l'utilisateur `MYSQL_USER`.
+
+- **Lancer Docker**
+
+Une fois que vous avez mis à jour le fichier `docker-compose.yml`, vous pouvez démarrer le service avec Docker en utilisant la commande suivante :
+
+```bash
+docker-compose up
+```
+
+Cela démarrera le conteneur MySQL dans un environnement Docker.
+
+### 5. Créer la base de données
 
 Une fois que vous avez configuré `.env`, vous pouvez créer la base de données avec la commande suivante :
 
@@ -61,7 +85,7 @@ Une fois que vous avez configuré `.env`, vous pouvez créer la base de données
 php bin/console doctrine:database:create
 ```
 
-### 5. Effectuer les migrations
+### 6. Effectuer les migrations
 
 Si des migrations doivent être appliquées pour créer ou mettre à jour les tables de la base de données, utilisez les commandes suivantes :
 
@@ -77,7 +101,7 @@ Si des migrations doivent être appliquées pour créer ou mettre à jour les ta
   php bin/console doctrine:migrations:migrate
   ```
 
-### 6. Lancer le serveur Symfony
+### 7. Lancer le serveur Symfony
 
 Si vous avez installé Symfony CLI, vous pouvez démarrer le serveur de développement avec :
 
